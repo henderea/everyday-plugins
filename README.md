@@ -18,6 +18,29 @@ Or install it yourself as:
 
 ## Usage
 
+###For conditionally running plugin setup code (or other code) based on installed gems
+As of version 1.1.0, there is support for running a block of code based on whether or not certain gems are installed.  This is via the `EverydayPlugins::Loader` module.  You can either `extend` it and use the `depend` method like any other plugin setup method, or you can use the static `EverydayPlugins::Loader.depend` method.  The method takes each dependency as a separate argument.  If you want to specify more than just the name of the gem (for example, if you want to require a minimum version), you need to put the parameters for that argument into an array.
+
+Here is an example:
+
+```ruby
+EverydayPlugins::Loader.depend(['bundler', '~> 1.5'], 'rake') {
+  #do stuff here
+}
+```
+
+And here is an example using `extend`:
+
+```ruby
+class MyLoader
+  extend EverydayPlugins::Loader
+  
+  depend(['bundler', '~> 1.5'], 'rake') {
+    #do stuff here
+  }
+end
+```
+
 ###For supporting plugins:
 See below for info on defining and using plugin types.  As for including plugins, use
 

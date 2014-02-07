@@ -86,6 +86,19 @@ module EverydayPlugins
       instance.set_vars(vars)
     end
   end
+  module Loader
+    def depend(*deps, &block)
+      EverydayPlugins::Loader.depend(*deps, &block)
+    end
+
+    def self.depend(*deps, &block)
+      met = deps.all? { |dep|
+        matches = Gem::Specification.find_all_by_name(*dep)
+        !(matches.nil? || matches.empty?)
+      }
+      block.call if met
+    end
+  end
   module Plugin
     def register(type, options = {}, &block)
       EverydayPlugins::Plugins.instance.register(type, options, &block)
