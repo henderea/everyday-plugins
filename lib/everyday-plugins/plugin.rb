@@ -1,6 +1,6 @@
+require 'rubygems'
 require 'everyday-cli-utils'
-include EverydayCliUtils
-import :maputil
+EverydayCliUtils.import :maputil
 
 module EverydayPlugins
   class Plugins
@@ -17,12 +17,14 @@ module EverydayPlugins
           rescue LoadError => e
             puts "Error in loading plugin '#{plugin}'"
             puts e.inspect
+            puts e.backtrace.join("\n")
             exit 1 if error_fatal
           end
         }
       rescue Exception => e
         puts 'Error in loading plugins'
         puts e.inspect
+        puts e.backtrace.join("\n")
         exit 1 if error_fatal
       end
     end
